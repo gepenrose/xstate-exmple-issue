@@ -1,8 +1,6 @@
 import { fromPromise, setup } from 'xstate';
 
 
-// commented code is for helping in figuring out how to handle async events without the subscribe portion of the actor service
-// may not be possible after all
 function timeout(ms: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -73,7 +71,7 @@ export const creditCheckMachine = setup({
   //   },
   // },
   // actors: {
-  //   updateFormBuilder: fromPromise(async () => {
+  //   updateService: fromPromise(async () => {
   //     await timeout(2000);
   //     // console.log('In INVOKE', input);
   //     // throw new Error("im here");
@@ -112,8 +110,8 @@ export const creditCheckMachine = setup({
       description: 'awaiting approval or rejection',
       // invoke: {
       //   input: {},
-      //   src: 'updateFormBuilder',
-      //   id: 'updateFormBuilder',
+      //   src: 'updateService',
+      //   id: 'updateService',
       // },
     },
     REJECTED: {
