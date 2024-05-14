@@ -52,7 +52,6 @@ export async function getDurableActor({
       throw new Error("Actor not found with the provided workflowId");
     }
 
-    console.log("restored state", restoredState);
   } else {
     workflowId = generateActorId();
   }
@@ -68,7 +67,8 @@ export async function getDurableActor({
       // on transition, persist the most recent actor state to the db
       // be sure to enable upsert so that the state record is created if it doesn't exist!
       const persistedState = actor.getPersistedSnapshot();
-      console.log("persisted state", persistedState);
+      // @ts-ignore
+      console.log('SAVING: ', persistedState?.value);
       const result = await collections.machineStates?.replaceOne(
         {
           workflowId,
@@ -79,6 +79,8 @@ export async function getDurableActor({
         },
         { upsert: true },
       );
+      // @ts-ignore
+      console.log("SAVED: ", persistedState?.value);
 
       if (!result?.acknowledged) {
         throw new Error(
