@@ -41,14 +41,14 @@ app.post("/workflows", async (_req, res) => {
 // - Returns the updated state in the response
 app.post("/workflows/:workflowId", async (req, res) => {
   const { workflowId } = req.params;
-  const { action } = req.body;
+  const event = req.body;
 
   try {
     const { actor } = await getDurableActor({
       machine: creditCheckMachine,
       workflowId,
     });
-    actor.send({ type: action });
+    actor.send(event);
   } catch (err) {
     // note: you can (and should!) create custom errors to handle different scenarios and return different status codes
     console.log(err);

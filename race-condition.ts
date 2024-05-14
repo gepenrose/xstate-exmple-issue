@@ -37,24 +37,21 @@ async function performRequestsInLoop(start: number, stop: number) {
   for (let i = start; i < stop; i++) {
     const response = await postApiRequest(
       "http://localhost:4242/workflows",
-      {
-        formId: String(i),
-        templateId: "FIELD_SAFETY"
-      },
+      {},
       headers
     );
 
     const workflowId = response?.data.workflowId;
 
+    await sleep(100);
+
     await postApiRequest(
       "http://localhost:4242/workflows/" + workflowId,
-      {
-        formId: String(i),
-        templateId: "FIELD_SAFETY",
-        action: "SUBMIT",
-      },
+      { type: "SUBMIT" },
       headers
     );
+
+    await sleep(100);
 
     // Make GET request
     const getRequest = await getApiRequest(
@@ -67,15 +64,11 @@ async function performRequestsInLoop(start: number, stop: number) {
 
     await postApiRequest(
       "http://localhost:4242/workflows/" + workflowId,
-      { 
-        formId: String(i), 
-        templateId: "FIELD_SAFETY", 
-        action: "APPROVE" 
-      },
+      { type: "APPROVE" },
       headers
     );
 
-    await sleep(500);
+    await sleep(100);
 
     // Make GET request
     const getRequestTwo = await getApiRequest(
