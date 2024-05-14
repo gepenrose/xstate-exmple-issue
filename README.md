@@ -33,7 +33,7 @@ curl --request POST \
 
 ```bash
 curl --request GET \
-  --url http://localhost:4242/workflows/formid/o8bls8 \
+  --url http://localhost:4242/workflows/o8bls8 \
   --header 'Content-Type: application/json'
 ```
 
@@ -50,7 +50,7 @@ curl --request POST \
 
 ```bash
 curl --request GET \
-  --url http://localhost:4242/workflows/formid/o8bls8 \
+  --url http://localhost:4242/workflows/o8bls8 \
   --header 'Content-Type: application/json'
 ```
 

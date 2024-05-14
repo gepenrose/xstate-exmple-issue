@@ -55,10 +55,10 @@ async function performRequestsInLoop(start: number, stop: number) {
 
     // Make GET request
     const getRequest = await getApiRequest(
-      "http://localhost:4242/workflows/formid/" + workflowId,
+      "http://localhost:4242/workflows/" + workflowId,
       headers
     );
-    if (getRequest?.data.currentState !== "PENDING") {
+    if (getRequest?.data.persistedState.value !== "PENDING") {
       console.error("Error: intermediate saved state is not PENDING");
     }
 
@@ -72,11 +72,11 @@ async function performRequestsInLoop(start: number, stop: number) {
 
     // Make GET request
     const getRequestTwo = await getApiRequest(
-      "http://localhost:4242/workflows/formid/" + workflowId,
+      "http://localhost:4242/workflows/" + workflowId,
       headers
     );
 
-    if (getRequestTwo?.data.currentState !== "APPROVED") {
+    if (getRequestTwo?.data.persistedState.value !== "APPROVED") {
       console.error("Error: final saved state is not APPROVED");
     }
   }
