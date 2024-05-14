@@ -1,5 +1,65 @@
 # Express Credit Check Workflow
 
+## Recreating Issue
+
+### Start Server & Mongo
+
+```bash
+pnpm install
+docker compose up -d
+pnpm start
+```
+
+### Manual Using Curl
+
+#### Initialize a workflow
+
+```bash
+curl --request POST \
+  --url http://localhost:4242/workflows \
+  --header 'Content-Type: application/json'
+```
+
+#### Submit a "SUBMIT" event, using the workflowId obtained from the previous step
+
+```bash
+curl --request POST \
+  --url http://localhost:4242/workflows/o8bls8 \
+  --header 'Content-Type: application/json' \
+  --data '{ "type": "SUBMIT" }'
+```
+
+#### Check if the PENDING state is saved
+
+```bash
+curl --request GET \
+  --url http://localhost:4242/workflows/formid/o8bls8 \
+  --header 'Content-Type: application/json'
+```
+
+#### Submit an "APPROVE" event, using the same
+
+```bash
+curl --request POST \
+  --url http://localhost:4242/workflows/o8bls8 \
+  --header 'Content-Type: application/json' \
+  --data '{ "type": "APPROVE" }'
+```
+
+#### Check if the APPROVED final state is saved
+
+```bash
+curl --request GET \
+  --url http://localhost:4242/workflows/formid/o8bls8 \
+  --header 'Content-Type: application/json'
+```
+
+### Using Script
+
+```bash
+node -r esbuild-register race-condition.ts 0 100
+```
+
 This is a simple workflow engine built with:
 
 - XState v5
